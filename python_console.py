@@ -6,7 +6,7 @@ import code
 
 
 class Pipe:
-    "mock stdin stdout or stderr"
+    """mock stdin stdout or stderr"""
 
     def __init__(self):
         self.buffer = queue.Queue()
@@ -26,7 +26,7 @@ class Pipe:
 
 
 class Console(tk.Frame):
-    "A tkinter widget which behaves like an interpreter"
+    """A tkinter widget which behaves like an interpreter"""
 
     def __init__(self, parent, _locals, exit_callback):
         super().__init__(parent)
@@ -51,11 +51,11 @@ class Console(tk.Frame):
         self.readFromPipe(sys.stderr, "stderr", foreground='red')
 
     def prompt(self):
-        "Add a '>>> ' to the console"
+        """Add a '>>> ' to the console"""
         self.prompt_flag = True
 
     def readFromPipe(self, pipe: Pipe, tag_name, **kwargs):
-        "Method for writing data from the replaced stdin and stdout to the console widget"
+        """Method for writing data from the replaced stdin and stdout to the console widget"""
 
         # write the >>>
         if self.prompt_flag and not sys.stdin.reading:
@@ -77,7 +77,7 @@ class Console(tk.Frame):
         self.after(50, lambda: self.readFromPipe(pipe, tag_name, **kwargs))
 
     def enter(self, e):
-        "The <Return> key press handler"
+        """The <Return> key press handler"""
 
         if sys.stdin.reading:
             # if stdin requested, then put data in stdin instead of running a new command
@@ -154,18 +154,18 @@ class ConsoleText(ScrolledText):
         self.commit_all()
 
     def prompt(self):
-        "Insert a prompt"
+        """Insert a prompt"""
         self.mark_set("prompt_end", 'end-1c')
         self.mark_gravity("prompt_end", tk.LEFT)
         self.write(">>> ", "prompt", foreground="blue")
         self.mark_gravity("prompt_end", tk.RIGHT)
 
     def commit_all(self):
-        "Mark all text as committed"
+        """Mark all text as committed"""
         self.commit_to('end-1c')
 
     def commit_to(self, pos):
-        "Mark all text up to a certain position as committed"
+        """Mark all text up to a certain position as committed"""
         if self.index(pos) in (self.index("end-1c"), self.index("end")):
             # don't let text become un-committed
             self.mark_set("committed_text", "end-1c")
